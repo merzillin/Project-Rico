@@ -26,17 +26,24 @@ export const Form = <TSchema extends ZodObject<ZodRawShape>>({
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const rawData = Object.fromEntries(formData.entries());
-    const data: Record<string, any> = {}; 
-    console.log('data',data)
-    Object.keys(rawData).forEach((key) => {
-      const input = form.elements.namedItem(key) as HTMLInputElement;
-      if (input?.type === "number") {
-        data[key] = rawData[key] === "" ? undefined : Number(rawData[key]);
-      } else {
-        data[key] = rawData[key];
-      }
-    });
+   const data: Record<string, any> = {};
+
+for (const key of Array.from(formData.keys())) {
+  const values = formData.getAll(key);
+
+  if (values.length > 1) {
+    data[key] = values;
+  } else {
+    const input = form.elements.namedItem(key) as HTMLInputElement;
+
+    if (input?.type === "number") {
+      data[key] = values[0] === "" ? undefined : Number(values[0]);
+    } else {
+      data[key] = values[0];
+    }
+  }
+}
+    console.log('form data',data)
     if(!props.validationSchema) return;
     const result = props.validationSchema.safeParse(data);
 

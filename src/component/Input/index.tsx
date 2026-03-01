@@ -67,36 +67,3 @@ export const InputNumber: React.FC<IInputNumberProps> = ({
 };
 
 
-interface ISelectProps   extends React.InputHTMLAttributes<HTMLSelectElement> {
-   label?: string;
-  error?: string;
-  helpText?: string;
-  width?: string;
-  inputStyle?: string;
-  sectionStyle?: string;
-}
-
-export const Select: React.FC<ISelectProps> = ({
-  label,
-  error,
-  helpText,
-  ...props
-}) => {
-  return (
-     <div className={`flex flex-col ${props.sectionStyle}`}>
-      {label && <label htmlFor={props.id}>{label}</label>}
-      <select
-        {...props}
-        className={`w-full px-4 py-2 border rounded-md 
-                    focus:outline-none focus:ring-2 
-                    focus:ring-blue-500 focus:border-blue-500
-                    transition duration-200 
-                    ${props.inputStyle}`}
-      > 
-      <option value={''} ></option>
-      </select>
-      {helpText && <small className="text-gray-500">{helpText}</small>}
-      {error && <small className="text-red-500">{error}</small>}
-    </div>
-  )
-}
