@@ -16,5 +16,17 @@ const Menus :IMenu[] = [
         icon:'',
         component: lazy(()=> import('../module/form/index'))
     },
+    {
+        label:'Custom Style',
+        route:'/custom',
+        icon:'',
+        component: lazy(()=> import('../module/form/index'))
+    },
+    {
+        label:'Calculator',
+        route:'/calculator',
+        icon:'',
+        component: lazy(()=> import('../module/Calculator/index'))
+    },
 ]
 export default Menus;

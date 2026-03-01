@@ -12,7 +12,7 @@ export const MenuList :IMenuList[] = [
         route:'/form',
     },
     {
-        label:'Button styles',
-        route:'/button'
+        label:'Calculator',
+        route:'calculator'
     }
 ]
