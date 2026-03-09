@@ -1,4 +1,4 @@
-import{c as $,j as f,r as T,R as I}from"./index-Nlof_xUv.js";const D=d=>{const e=$.c(10);let s,t,r,l;e[0]!==d?({label:s,className:r,type:l,...t}=d,e[0]=d,e[1]=s,e[2]=t,e[3]=r,e[4]=l):(s=e[1],t=e[2],r=e[3],l=e[4]);const m=r===void 0?"":r,o=l===void 0?"submit":l,u=`px-4 py-2 rounded-md 
+import{c as $,j as f,r as T,R as I}from"./index-BQYKKn0N.js";const D=d=>{const e=$.c(10);let s,t,r,l;e[0]!==d?({label:s,className:r,type:l,...t}=d,e[0]=d,e[1]=s,e[2]=t,e[3]=r,e[4]=l):(s=e[1],t=e[2],r=e[3],l=e[4]);const m=r===void 0?"":r,o=l===void 0?"submit":l,u=`px-4 py-2 rounded-md 
                   bg-blue-600 text-white 
                   hover:bg-blue-700 
                   transition duration-200 
