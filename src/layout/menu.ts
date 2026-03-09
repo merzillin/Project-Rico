@@ -14,5 +14,9 @@ export const MenuList :IMenuList[] = [
     {
         label:'Calculator',
         route:'calculator'
+    },
+    {
+        label:'Game V1',
+       route:'game-v1'
     }
 ]

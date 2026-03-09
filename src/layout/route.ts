@@ -28,5 +28,11 @@ const Menus :IMenu[] = [
         icon:'',
         component: lazy(()=> import('../module/Calculator/index'))
     },
+    {
+        label:'Game V1',
+        route:'/game-v1',
+        icon:'',
+        component: lazy(()=> import('../module/GameV1/index'))
+    }
 ]
 export default Menus;
