@@ -305,106 +305,106 @@ const GameV1Page = () => {
     else return true;
   };
 
-  const setChecker = (input: TButton, player: string): boolean => {
-    const { tl, tc, tr, lc, m, rc, bl, bc, br } = gameConfig.mapSettings;
-    switch (input) {
-      case "tl":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tl.player === player &&
-            lc.player === player &&
-            bl.player === player) ||
-          (tl.player === player && m.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "tc":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tc.player === player && m.player === player && bc.player === player)
-        )
-          return true;
-        else return false;
-      case "tr":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tr.player === player &&
-            rc.player === player &&
-            br.player === player) ||
-          (tr.player === player && m.player === player && bl.player === player)
-        )
-          return true;
-        else return false;
-      case "lc":
-        if (
-          (lc.player === player &&
-            tl.player === player &&
-            bl.player === player) ||
-          (lc.player === player && m.player === player && rc.player === player)
-        )
-          return true;
-        else return false;
-      case "m":
-        if (
-          (m.player === player &&
-            tc.player === player &&
-            bc.player === player) ||
-          (m.player === player && rc.player === player && lc.player === player)
-        )
-          return true;
-        else return false;
-      case "rc":
-        if (
-          (rc.player === player &&
-            m.player === player &&
-            lc.player === player) ||
-          (tr.player === player && rc.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "bl":
-        if (
-          (tl.player === player &&
-            lc.player === player &&
-            bl.player === player) ||
-          (bl.player === player &&
-            m.player === player &&
-            tr.player === player) ||
-          (bl.player === player && bc.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "bc":
-        if (
-          (bc.player === player &&
-            m.player === player &&
-            tc.player === player) ||
-          (bc.player === player && bl.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "br":
-        if (
-          (br.player === player &&
-            rc.player === player &&
-            tr.player === player) ||
-          (br.player === player &&
-            m.player === player &&
-            tl.player === player) ||
-          (bc.player === player && bl.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      default:
-        return false;
-    }
-  };
+//   const setChecker = (input: TButton, player: string): boolean => {
+//     const { tl, tc, tr, lc, m, rc, bl, bc, br } = gameConfig.mapSettings;
+//     switch (input) {
+//       case "tl":
+//         if (
+//           (tl.player === player &&
+//             tc.player === player &&
+//             tr.player === player) ||
+//           (tl.player === player &&
+//             lc.player === player &&
+//             bl.player === player) ||
+//           (tl.player === player && m.player === player && br.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "tc":
+//         if (
+//           (tl.player === player &&
+//             tc.player === player &&
+//             tr.player === player) ||
+//           (tc.player === player && m.player === player && bc.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "tr":
+//         if (
+//           (tl.player === player &&
+//             tc.player === player &&
+//             tr.player === player) ||
+//           (tr.player === player &&
+//             rc.player === player &&
+//             br.player === player) ||
+//           (tr.player === player && m.player === player && bl.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "lc":
+//         if (
+//           (lc.player === player &&
+//             tl.player === player &&
+//             bl.player === player) ||
+//           (lc.player === player && m.player === player && rc.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "m":
+//         if (
+//           (m.player === player &&
+//             tc.player === player &&
+//             bc.player === player) ||
+//           (m.player === player && rc.player === player && lc.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "rc":
+//         if (
+//           (rc.player === player &&
+//             m.player === player &&
+//             lc.player === player) ||
+//           (tr.player === player && rc.player === player && br.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "bl":
+//         if (
+//           (tl.player === player &&
+//             lc.player === player &&
+//             bl.player === player) ||
+//           (bl.player === player &&
+//             m.player === player &&
+//             tr.player === player) ||
+//           (bl.player === player && bc.player === player && br.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "bc":
+//         if (
+//           (bc.player === player &&
+//             m.player === player &&
+//             tc.player === player) ||
+//           (bc.player === player && bl.player === player && br.player === player)
+//         )
+//           return true;
+//         else return false;
+//       case "br":
+//         if (
+//           (br.player === player &&
+//             rc.player === player &&
+//             tr.player === player) ||
+//           (br.player === player &&
+//             m.player === player &&
+//             tl.player === player) ||
+//           (bc.player === player && bl.player === player && br.player === player)
+//         )
+//           return true;
+//         else return false;
+//       default:
+//         return false;
+//     }
+//   };
 
   return (
     <>
