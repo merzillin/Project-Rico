@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import "./style.css";
 
 type TButton = "tl" | "tc" | "tr" | "lc" | "m" | "rc" | "bl" | "bc" | "br";
@@ -26,8 +26,22 @@ interface IGameConfig {
     br: TMapSettings;
   };
   playersTurn: "1" | "2" | "";
+  playCount: number;
 }
-import "./style.css";
+
+type TGameMapSettings = {
+  tl: TMapSettings;
+  tc: TMapSettings;
+  tr: TMapSettings;
+  lc: TMapSettings;
+  m: TMapSettings;
+  rc: TMapSettings;
+  bl: TMapSettings;
+  bc: TMapSettings;
+  br: TMapSettings;
+};
+
+type TResult = { player: string; status: boolean };
 
 const GameV1Page = () => {
   const [gameConfig, setGameConfig] = useState<IGameConfig>({
@@ -51,204 +65,59 @@ const GameV1Page = () => {
       br: { player: "", style: "", prevPlayer: "" },
     },
     playersTurn: "1",
+    playCount: 0,
   });
 
-  const handleClick = (input: TButton) => {
-    switch (input) {
-      case "tl":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              tl: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("tl"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                tl: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "tr":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              tr: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("tr"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                tr: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "tc":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              tc: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("tc"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                tc: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "lc":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              lc: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("lc"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                lc: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "m":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              m: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("m"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                m: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "rc":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              rc: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("rc"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                rc: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "bl":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              bl: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("bl"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                bl: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "bc":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              bc: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("bc"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                bc: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      case "br":
-        if (checkPlay(gameConfig.playersTurn)) {
-          setGameConfig((prev) => ({
-            ...prev,
-            playersTurn: getNextPlayer(prev.playersTurn),
-            mapSettings: {
-              ...prev.mapSettings,
-              br: { player: prev.playersTurn, style: "", prevPlayer: "" },
-            },
-          }));
-        } else {
-          if (validator("br"))
-            setGameConfig((prev) => ({
-              ...prev,
-              mapSettings: {
-                ...prev.mapSettings,
-                br: { player: "", style: "", prevPlayer: prev.playersTurn },
-              },
-            }));
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  const [result, setResult] = useState<TResult>({ player: "", status: false });
 
+  const handleClick = (pos: TButton) => {
+    setGameConfig((prev) => {
+      const currentPlayer: "1" | "2" | "" = prev.playersTurn;
+
+      const cell = prev.mapSettings[pos];
+
+      if (!checkPlay(currentPlayer)) {
+        if (validator(pos) && cell.player === currentPlayer) {
+          return {
+            ...prev,
+            mapSettings: {
+              ...prev.mapSettings,
+              [pos]: {
+                player: "",
+                style: "",
+                prevPlayer: currentPlayer,
+              } as TMapSettings,
+            },
+          };
+        }
+        return prev;
+      }
+
+      const updatedMap: typeof prev.mapSettings = {
+        ...prev.mapSettings,
+        [pos]: {
+          player: currentPlayer,
+          style: "",
+          prevPlayer: "" as "" | "1" | "2",
+        },
+      };
+
+      const newPlayCount = prev.playCount + 1;
+
+      let winner = false;
+      if (newPlayCount > 6) {
+        winner = setChecker(pos, currentPlayer, updatedMap);
+        if (winner) setResult({ player: currentPlayer, status: true });
+      }
+
+      return {
+        ...prev,
+        mapSettings: updatedMap,
+        playCount: newPlayCount,
+        playersTurn: getNextPlayer(currentPlayer),
+      };
+    });
+  };
   const getStyles = (input: TButton) => {
     const cell = gameConfig.mapSettings[input];
 
@@ -305,106 +174,137 @@ const GameV1Page = () => {
     else return true;
   };
 
-//   const setChecker = (input: TButton, player: string): boolean => {
-//     const { tl, tc, tr, lc, m, rc, bl, bc, br } = gameConfig.mapSettings;
-//     switch (input) {
-//       case "tl":
-//         if (
-//           (tl.player === player &&
-//             tc.player === player &&
-//             tr.player === player) ||
-//           (tl.player === player &&
-//             lc.player === player &&
-//             bl.player === player) ||
-//           (tl.player === player && m.player === player && br.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "tc":
-//         if (
-//           (tl.player === player &&
-//             tc.player === player &&
-//             tr.player === player) ||
-//           (tc.player === player && m.player === player && bc.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "tr":
-//         if (
-//           (tl.player === player &&
-//             tc.player === player &&
-//             tr.player === player) ||
-//           (tr.player === player &&
-//             rc.player === player &&
-//             br.player === player) ||
-//           (tr.player === player && m.player === player && bl.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "lc":
-//         if (
-//           (lc.player === player &&
-//             tl.player === player &&
-//             bl.player === player) ||
-//           (lc.player === player && m.player === player && rc.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "m":
-//         if (
-//           (m.player === player &&
-//             tc.player === player &&
-//             bc.player === player) ||
-//           (m.player === player && rc.player === player && lc.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "rc":
-//         if (
-//           (rc.player === player &&
-//             m.player === player &&
-//             lc.player === player) ||
-//           (tr.player === player && rc.player === player && br.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "bl":
-//         if (
-//           (tl.player === player &&
-//             lc.player === player &&
-//             bl.player === player) ||
-//           (bl.player === player &&
-//             m.player === player &&
-//             tr.player === player) ||
-//           (bl.player === player && bc.player === player && br.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "bc":
-//         if (
-//           (bc.player === player &&
-//             m.player === player &&
-//             tc.player === player) ||
-//           (bc.player === player && bl.player === player && br.player === player)
-//         )
-//           return true;
-//         else return false;
-//       case "br":
-//         if (
-//           (br.player === player &&
-//             rc.player === player &&
-//             tr.player === player) ||
-//           (br.player === player &&
-//             m.player === player &&
-//             tl.player === player) ||
-//           (bc.player === player && bl.player === player && br.player === player)
-//         )
-//           return true;
-//         else return false;
-//       default:
-//         return false;
-//     }
-//   };
+  const setChecker = (
+    input: TButton,
+    player: string,
+    data: TGameMapSettings,
+  ): boolean => {
+    const { tl, tc, tr, lc, m, rc, bl, bc, br } = data;
+    switch (input) {
+      case "tl":
+        if (
+          (tl.player === player &&
+            tc.player === player &&
+            tr.player === player) ||
+          (tl.player === player &&
+            lc.player === player &&
+            bl.player === player) ||
+          (tl.player === player && m.player === player && br.player === player)
+        )
+          return true;
+        else return false;
+      case "tc":
+        if (
+          (tl.player === player &&
+            tc.player === player &&
+            tr.player === player) ||
+          (tc.player === player && m.player === player && bc.player === player)
+        )
+          return true;
+        else return false;
+      case "tr":
+        if (
+          (tl.player === player &&
+            tc.player === player &&
+            tr.player === player) ||
+          (tr.player === player &&
+            rc.player === player &&
+            br.player === player) ||
+          (tr.player === player && m.player === player && bl.player === player)
+        )
+          return true;
+        else return false;
+      case "lc":
+        if (
+          (lc.player === player &&
+            tl.player === player &&
+            bl.player === player) ||
+          (lc.player === player && m.player === player && rc.player === player)
+        )
+          return true;
+        else return false;
+      case "m":
+        if (
+          (m.player === player &&
+            tc.player === player &&
+            bc.player === player) ||
+          (m.player === player && rc.player === player && lc.player === player)
+        )
+          return true;
+        else return false;
+      case "rc":
+        if (
+          (rc.player === player &&
+            m.player === player &&
+            lc.player === player) ||
+          (tr.player === player && rc.player === player && br.player === player)
+        )
+          return true;
+        else return false;
+      case "bl":
+        if (
+          (tl.player === player &&
+            lc.player === player &&
+            bl.player === player) ||
+          (bl.player === player &&
+            m.player === player &&
+            tr.player === player) ||
+          (bl.player === player && bc.player === player && br.player === player)
+        )
+          return true;
+        else return false;
+      case "bc":
+        if (
+          (bc.player === player &&
+            m.player === player &&
+            tc.player === player) ||
+          (bc.player === player && bl.player === player && br.player === player)
+        )
+          return true;
+        else return false;
+      case "br":
+        if (
+          (br.player === player &&
+            rc.player === player &&
+            tr.player === player) ||
+          (br.player === player &&
+            m.player === player &&
+            tl.player === player) ||
+          (bc.player === player && bl.player === player && br.player === player)
+        )
+          return true;
+        else return false;
+      default:
+        return false;
+    }
+  };
+
+  const handleClose = () => {
+    setResult({ player: "", status: false });
+    setGameConfig({
+      playerOne: {
+        playerName: "Player One",
+        color: "#33b054",
+      },
+      playerTwo: {
+        playerName: "Player two",
+        color: "#6333b0",
+      },
+      mapSettings: {
+        tl: { player: "", style: "", prevPlayer: "" },
+        tc: { player: "", style: "", prevPlayer: "" },
+        tr: { player: "", style: "", prevPlayer: "" },
+        lc: { player: "", style: "", prevPlayer: "" },
+        m: { player: "", style: "", prevPlayer: "" },
+        rc: { player: "", style: "", prevPlayer: "" },
+        bl: { player: "", style: "", prevPlayer: "" },
+        bc: { player: "", style: "", prevPlayer: "" },
+        br: { player: "", style: "", prevPlayer: "" },
+      },
+      playersTurn: "1",
+      playCount: 0,
+    });
+  };
 
   return (
     <>
@@ -462,11 +362,40 @@ const GameV1Page = () => {
           ></div>
         </div>
       </div>
-    </>
+      <Modal
+        value={result.status}
+        onClose={handleClose}
+        title={`Player ${
+          result.player === "1"
+            ? gameConfig.playerOne.playerName
+            : gameConfig.playerTwo.playerName
+        } wins`}
+      />
+    </ >
   );
 };
 export default GameV1Page;
 
 const getNextPlayer = (input: "1" | "2" | ""): "1" | "2" => {
   return input === "1" ? "2" : "1";
+};
+
+interface IModalProps {
+  value: boolean;
+  onClose: (val: boolean) => void;
+  title: string;
+}
+
+const Modal = ({ value, onClose, title }: IModalProps) => {
+  return (
+    <>
+      {value && (
+        <div className="modal-overlay" onClick={() => onClose(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>{title} </h2>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
