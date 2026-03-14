@@ -9,7 +9,7 @@ body {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  margin-bottom: 30px;;
+  margin-bottom: 30px;
 }
 
 .main {
@@ -61,7 +61,6 @@ body {
   height: 20px;
   background-color: rgb(212, 212, 212);
   border-radius: 50%;
-
 }
 
 .top-left {
@@ -105,7 +104,7 @@ body {
 .left-center {
   right: 101%;
   transform: translate(55%, 60%);
-  left:-7%;
+  left: -7%;
   top: 43%;
 }
 
@@ -146,12 +145,147 @@ body {
 
 /* Modal box */
 .modal-content {
-   background-color: #575857;
+  background-color: #575857;
   padding: 20px;
   border-radius: 8px;
   width: 300px;
-  height: 'auto';
+  height: "auto";
   max-width: 90%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001; /* Higher than overlay for proper stacking */
+}
+
+/* main page style */
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #232323;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  box-sizing: border-box;
+}
+
+/* Styling for the form and form controls */
+.user-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.user-form label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #727272;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* input[type="text"] {
+  background-color: #f9f9f9;
+}
+
+select {
+  background-color: #f9f9f9;
+} */
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Color circle styling for the select options */
+select option {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.color-circle {
+  width: 50px;
+  height: 50px; /* Height of the circle */
+  border-radius: 50%; /* This makes the div a circle */
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+  .info-card {
+    width: 90%;
+  }
+}
+
+.score-board {
+  border: 1px solid #ffffff;
+  padding: 10px 5px 5px 10px;
+  text-align: center;
+  width: 50%;
+}
+
+/* For small screens */
+@media (max-width: 768px) {
+  .score-board {
+    width: 100%;
+  }
+}
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.score-table th,
+.score-table td {
+  padding: 6px;
+  text-align: center;
+}
+
+.score-table td {
+  border-top: 1px solid #ffffff;
+}
+.score-table-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }

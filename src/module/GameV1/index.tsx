@@ -1,401 +1,182 @@
-import {  useState } from "react";
+import { useState } from "react";
 import "./style.css";
+import GameV1Page from "./GameGrid";
 
-type TButton = "tl" | "tc" | "tr" | "lc" | "m" | "rc" | "bl" | "bc" | "br";
-type TPlayerS = {
-  playerName: string;
-  color: string;
-};
-type TMapSettings = {
-  player: "1" | "2" | "";
-  style: string;
-  prevPlayer: "1" | "2" | "";
-};
-interface IGameConfig {
-  playerOne: TPlayerS;
-  playerTwo: TPlayerS;
-  mapSettings: {
-    tl: TMapSettings;
-    tc: TMapSettings;
-    tr: TMapSettings;
-    lc: TMapSettings;
-    m: TMapSettings;
-    rc: TMapSettings;
-    bl: TMapSettings;
-    bc: TMapSettings;
-    br: TMapSettings;
-  };
-  playersTurn: "1" | "2" | "";
-  playCount: number;
-}
-
-type TGameMapSettings = {
-  tl: TMapSettings;
-  tc: TMapSettings;
-  tr: TMapSettings;
-  lc: TMapSettings;
-  m: TMapSettings;
-  rc: TMapSettings;
-  bl: TMapSettings;
-  bc: TMapSettings;
-  br: TMapSettings;
-};
-
-type TResult = { player: string; status: boolean };
-
-const GameV1Page = () => {
-  const [gameConfig, setGameConfig] = useState<IGameConfig>({
+export default function MainGame() {
+  const [settings, setSettings] = useState({
+    isGameGridVisible: false,
     playerOne: {
-      playerName: "Player One",
-      color: "#33b054",
+      playerName: "a",
+      color: "",
+      point: 0,
     },
     playerTwo: {
-      playerName: "Player two",
-      color: "#6333b0",
+      playerName: "",
+      color: "b",
+      point: 0,
     },
-    mapSettings: {
-      tl: { player: "", style: "", prevPlayer: "" },
-      tc: { player: "", style: "", prevPlayer: "" },
-      tr: { player: "", style: "", prevPlayer: "" },
-      lc: { player: "", style: "", prevPlayer: "" },
-      m: { player: "", style: "", prevPlayer: "" },
-      rc: { player: "", style: "", prevPlayer: "" },
-      bl: { player: "", style: "", prevPlayer: "" },
-      bc: { player: "", style: "", prevPlayer: "" },
-      br: { player: "", style: "", prevPlayer: "" },
-    },
-    playersTurn: "1",
-    playCount: 0,
   });
+  const colors = [
+    { name: "Red", value: "red" },
+    { name: "Green", value: "green" },
+    { name: "Blue", value: "blue" },
+    { name: "Yellow", value: "yellow" },
+    { name: "Purple", value: "purple" },
+    { name: "Orange", value: "orange" },
+  ];
 
-  const [result, setResult] = useState<TResult>({ player: "", status: false });
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
 
-  const handleClick = (pos: TButton) => {
-    setGameConfig((prev) => {
-      const currentPlayer: "1" | "2" | "" = prev.playersTurn;
+    // Access form values using e.target.elements
+    const player1Name = e.target.elements.player1Name.value;
+    const player2Name = e.target.elements.player2Name.value;
+    const player1Color = e.target.elements.player1Color.value;
+    const player2Color = e.target.elements.player2Color.value;
 
-      const cell = prev.mapSettings[pos];
-
-      if (!checkPlay(currentPlayer)) {
-        if (validator(pos) && cell.player === currentPlayer) {
-          return {
-            ...prev,
-            mapSettings: {
-              ...prev.mapSettings,
-              [pos]: {
-                player: "",
-                style: "",
-                prevPlayer: currentPlayer,
-              } as TMapSettings,
-            },
-          };
-        }
-        return prev;
-      }
-
-      const updatedMap: typeof prev.mapSettings = {
-        ...prev.mapSettings,
-        [pos]: {
-          player: currentPlayer,
-          style: "",
-          prevPlayer: "" as "" | "1" | "2",
+    // Check for validation (same names or colors)
+    if (player1Name === player2Name || player1Color === player2Color) {
+      alert("Player names and colors must be different!");
+    } else {
+      // Process form submission
+      const payload = {
+        playerOne: {
+          playerName: player1Name,
+          color: player1Color,
+          point: 0,
+        },
+        playerTwo: {
+          playerName: player2Name,
+          color: player2Color,
+          point: 0,
         },
       };
+      setSettings({ isGameGridVisible: true, ...payload });
+      // after this show instructions
+    }
+  };
 
-      const newPlayCount = prev.playCount + 1;
-
-      let winner = false;
-      if (newPlayCount > 6) {
-        winner = setChecker(pos, currentPlayer, updatedMap);
-        if (winner) setResult({ player: currentPlayer, status: true });
-      }
-
-      return {
+  const handleCount = (player: string) => {
+    if (player === "1")
+      setSettings((prev) => ({
         ...prev,
-        mapSettings: updatedMap,
-        playCount: newPlayCount,
-        playersTurn: getNextPlayer(currentPlayer),
-      };
-    });
-  };
-  const getStyles = (input: TButton) => {
-    const cell = gameConfig.mapSettings[input];
-
-    if (!cell.player) {
-      return { backgroundColor: "#d4d4d4" };
-    }
-
-    const color =
-      cell.player === "1"
-        ? gameConfig.playerOne.color
-        : gameConfig.playerTwo.color;
-
-    const baseStyle = {
-      backgroundColor: color,
-      width: "40px",
-      height: "40px",
-    };
-
-    switch (input) {
-      case "lc":
-        return { ...baseStyle, top: "36%", left: "-14%" };
-
-      case "m":
-        return { ...baseStyle, top: "36%", left: "36%" };
-
-      case "rc":
-        return { ...baseStyle, top: "36%", left: "86%" };
-
-      case "bl":
-        return { ...baseStyle, left: "1%" };
-
-      case "br":
-        return { ...baseStyle, left: "85%" };
-
-      default:
-        return baseStyle;
-    }
-  };
-
-  const checkPlay = (player: "1" | "2" | ""): boolean => {
-    const count = Object.values(gameConfig.mapSettings).filter(
-      (v) => v.player === player,
-    ).length;
-
-    return count < 3;
-  };
-
-  const validator = (position: TButton): boolean => {
-    if (
-      gameConfig.mapSettings[position].player !== gameConfig.playersTurn ||
-      gameConfig.mapSettings[position].player === ""
-    )
-      return false;
-    else return true;
-  };
-
-  const setChecker = (
-    input: TButton,
-    player: string,
-    data: TGameMapSettings,
-  ): boolean => {
-    const { tl, tc, tr, lc, m, rc, bl, bc, br } = data;
-    switch (input) {
-      case "tl":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tl.player === player &&
-            lc.player === player &&
-            bl.player === player) ||
-          (tl.player === player && m.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "tc":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tc.player === player && m.player === player && bc.player === player)
-        )
-          return true;
-        else return false;
-      case "tr":
-        if (
-          (tl.player === player &&
-            tc.player === player &&
-            tr.player === player) ||
-          (tr.player === player &&
-            rc.player === player &&
-            br.player === player) ||
-          (tr.player === player && m.player === player && bl.player === player)
-        )
-          return true;
-        else return false;
-      case "lc":
-        if (
-          (lc.player === player &&
-            tl.player === player &&
-            bl.player === player) ||
-          (lc.player === player && m.player === player && rc.player === player)
-        )
-          return true;
-        else return false;
-      case "m":
-        if (
-          (m.player === player &&
-            tc.player === player &&
-            bc.player === player) ||
-          (m.player === player && rc.player === player && lc.player === player)
-        )
-          return true;
-        else return false;
-      case "rc":
-        if (
-          (rc.player === player &&
-            m.player === player &&
-            lc.player === player) ||
-          (tr.player === player && rc.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "bl":
-        if (
-          (tl.player === player &&
-            lc.player === player &&
-            bl.player === player) ||
-          (bl.player === player &&
-            m.player === player &&
-            tr.player === player) ||
-          (bl.player === player && bc.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "bc":
-        if (
-          (bc.player === player &&
-            m.player === player &&
-            tc.player === player) ||
-          (bc.player === player && bl.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      case "br":
-        if (
-          (br.player === player &&
-            rc.player === player &&
-            tr.player === player) ||
-          (br.player === player &&
-            m.player === player &&
-            tl.player === player) ||
-          (bc.player === player && bl.player === player && br.player === player)
-        )
-          return true;
-        else return false;
-      default:
-        return false;
-    }
-  };
-
-  const handleClose = () => {
-    setResult({ player: "", status: false });
-    setGameConfig({
-      playerOne: {
-        playerName: "Player One",
-        color: "#33b054",
-      },
-      playerTwo: {
-        playerName: "Player two",
-        color: "#6333b0",
-      },
-      mapSettings: {
-        tl: { player: "", style: "", prevPlayer: "" },
-        tc: { player: "", style: "", prevPlayer: "" },
-        tr: { player: "", style: "", prevPlayer: "" },
-        lc: { player: "", style: "", prevPlayer: "" },
-        m: { player: "", style: "", prevPlayer: "" },
-        rc: { player: "", style: "", prevPlayer: "" },
-        bl: { player: "", style: "", prevPlayer: "" },
-        bc: { player: "", style: "", prevPlayer: "" },
-        br: { player: "", style: "", prevPlayer: "" },
-      },
-      playersTurn: "1",
-      playCount: 0,
-    });
+        playerOne: { ...prev.playerOne, point: prev.playerOne.point + 1 },
+      }));
+    else
+      setSettings((prev) => ({
+        ...prev,
+        playerTwo: { ...prev.playerTwo, point: prev.playerTwo.point + 1 },
+      }));
   };
 
   return (
     <>
-      <div className="player-card">
-        {gameConfig.playersTurn === "1"
-          ? gameConfig.playerOne.playerName + `'s turn`
-          : gameConfig.playerTwo.playerName + `'s turn`}
-      </div>
-      <div className="main">
-        <div className="box">
-          <div
-            className="circle top-left "
-            onClick={() => handleClick("tl")}
-            style={getStyles("tl")}
-          ></div>
-          <div
-            className="circle top-center"
-            onClick={() => handleClick("tc")}
-            style={getStyles("tc")}
-          ></div>
-          <div
-            className="circle top-right"
-            onClick={() => handleClick("tr")}
-            style={getStyles("tr")}
-          ></div>
-          <div
-            className="circle left-center"
-            onClick={() => handleClick("lc")}
-            style={getStyles("lc")}
-          ></div>
-          <div
-            className="circle mid"
-            onClick={() => handleClick("m")}
-            style={getStyles("m")}
-          ></div>
-          <div
-            className="circle right-center"
-            onClick={() => handleClick("rc")}
-            style={getStyles("rc")}
-          ></div>
-          <div
-            className="circle bottom-left"
-            onClick={() => handleClick("bl")}
-            style={getStyles("bl")}
-          ></div>
-          <div
-            className="circle bottom-center"
-            onClick={() => handleClick("bc")}
-            style={getStyles("bc")}
-          ></div>
-          <div
-            className="circle bottom-right"
-            onClick={() => handleClick("br")}
-            style={getStyles("br")}
-          ></div>
+      {!settings.isGameGridVisible ? (
+        <div className="info-card">
+          <form onSubmit={handleSubmit}>
+            <div className="user-form">
+              <label>Enter Player 1 Name</label>
+              <input type="text" name="player1Name" required />
+            </div>
+            <div className="user-form">
+              <label>Select Color</label>
+              <select name="player1Color" required>
+                <option value="">Select a color</option>
+                {colors.map((color) => (
+                  <option key={color.value} value={color.value}>
+                    {color.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="user-form">
+              <label>Enter Player 2 Name</label>
+              <input type="text" name="player2Name" required />
+            </div>
+            <div className="user-form">
+              <label>Select Color</label>
+              <select name="player2Color" required>
+                <option value="">Select a color</option>
+                {colors.map((color) => (
+                  <option key={color.value} value={color.value}>
+                    {color.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button className="user-form" type="submit">
+              Next
+            </button>
+          </form>
         </div>
-      </div>
-      <Modal
-        value={result.status}
-        onClose={handleClose}
-        title={`Player ${
-          result.player === "1"
-            ? gameConfig.playerOne.playerName
-            : gameConfig.playerTwo.playerName
-        } wins`}
-      />
-    </ >
-  );
-};
-export default GameV1Page;
-
-const getNextPlayer = (input: "1" | "2" | ""): "1" | "2" => {
-  return input === "1" ? "2" : "1";
-};
-
-interface IModalProps {
-  value: boolean;
-  onClose: (val: boolean) => void;
-  title: string;
-}
-
-const Modal = ({ value, onClose, title }: IModalProps) => {
-  return (
-    <>
-      {value && (
-        <div className="modal-overlay" onClick={() => onClose(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>{title} </h2>
+      ) : (
+        <>
+          <GameV1Page
+            playerOne={settings.playerOne}
+            playerTwo={settings.playerTwo}
+            onPlayerWin={handleCount}
+          />
+          <br />
+          <br />
+          <br />
+          <br />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div className="score-board">
+              <label style={{ borderBottom: "1px solid" }}>Score Board</label>
+              <div>
+                <table className="score-table">
+                  <thead>
+                    <tr className="score-table-tr">
+                      <th>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            gap: "20px",
+                          }}
+                        >
+                          {settings.playerOne.playerName}{" "}
+                          <div
+                            className="score-table-circle"
+                            style={{
+                              backgroundColor: settings.playerOne.color,
+                            }}
+                          ></div>
+                        </div>
+                      </th>
+                      <th>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            gap: "20px",
+                          }}
+                        >
+                          {settings.playerTwo.playerName}{" "}
+                          <div
+                            className="score-table-circle"
+                            style={{
+                              backgroundColor: settings.playerTwo.color,
+                            }}
+                          ></div>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{settings.playerOne.point}</td>
+                      <td>{settings.playerTwo.point}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
-};
+}
